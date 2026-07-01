@@ -1,55 +1,27 @@
-<?php
+<h1>Raw Form Data</h1>
+<pre><?php print_r($_POST); ?></pre>
 
-$name = $_POST['name'] ?? '';
-$section = $_POST['section'] ?? '';
-$cardnumber = $_POST['cardnumber'] ?? '';
-$cardtype = $_POST['cardtype'] ?? '';
+<h1>Form Input Values</h1>
 
-?>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Buy Your Grade</title>
-</head>
-<body>
-
-<h1>Thanks, sucker!</h1>
-
-<h2>Raw Form Data</h2>
-
-<pre>
-<?php print_r($_POST); ?>
-</pre>
-
-<h2>Your Information</h2>
-
-<p><strong>Name:</strong> <?php echo htmlspecialchars($name); ?></p>
-
-<p><strong>Section:</strong> <?php echo htmlspecialchars($section); ?></p>
-
-<p><strong>Card Number:</strong> <?php echo htmlspecialchars($cardnumber); ?></p>
-
-<p><strong>Card Type:</strong> <?php echo htmlspecialchars($cardtype); ?></p>
+<p>Your Name: <?= htmlspecialchars($_POST['name'] ?? '') ?></p>
+<p>Section: <?= htmlspecialchars($_POST['section'] ?? '') ?></p>
+<p>Card Number: <?= htmlspecialchars($_POST['cardnumber'] ?? '') ?></p>
+<p>Card Type: <?= htmlspecialchars($_POST['cardtype'] ?? '') ?></p>
 
 <?php
 
-$record = $name . ";" .
-          $section . ";" .
-          $cardnumber . ";" .
-          $cardtype . PHP_EOL;
+$name = trim($_POST['name'] ?? '');
+$section = trim($_POST['section'] ?? '');
+$cardnumber = trim($_POST['cardnumber'] ?? '');
+$cardtype = trim($_POST['cardtype'] ?? '');
 
-file_put_contents("suckers.html", $record, FILE_APPEND);
+$line = $name . ';' . $section . ';' . $cardnumber . ';' . $cardtype . PHP_EOL;
 
-$database = file_get_contents("suckers.html");
+file_put_contents('suckers.html', $line, FILE_APPEND);
+
+$all = file_get_contents('suckers.html');
+
+echo '<h2>The current database contains:</h2>';
+echo '<pre>' . htmlspecialchars($all) . '</pre>';
 
 ?>
-
-<h2>The current database contains:</h2>
-
-<pre>
-<?php echo htmlspecialchars($database); ?>
-</pre>
-
-</body>
-</html>
